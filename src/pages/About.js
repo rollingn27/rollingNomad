@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import LoggerContext from "../contexts/logger";
 
 const About = () => {
   const [isChange, setIsChange] = useState(false);
+  const { log } = useContext(LoggerContext);
   const confirmMessage =
     "변경사항이 있습니다. 정말로 이 페이지를 나가시겠습니까?";
   useEffect(() => {
@@ -25,7 +27,6 @@ const About = () => {
     window.addEventListener("popstate", handlePopstate);
 
     return () => {
-      console.log("destroy");
       window.removeEventListener("beforeunload", handleBeforeUnload);
       window.removeEventListener("popstate", handlePopstate);
     };
@@ -34,11 +35,13 @@ const About = () => {
   const handleInputChange = () => {
     setIsChange(true);
   };
-
+  const onTest = () => {
+    log("About", "log test");
+  };
   return (
     <div>
       <h1>2페이지</h1>
-      <div>페이지 벗어나기 테스트</div>
+      <div onClick={onTest}>페이지 벗어나기 테스트</div>
       <input onChange={handleInputChange}></input>
       벗어나기상태: {isChange ? "true" : "false"}
     </div>

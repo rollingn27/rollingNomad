@@ -2,11 +2,17 @@ import { useEffect, useState } from "react";
 import ColorBox from "../components/ColorBox";
 import { ColorProvier } from "../contexts/color";
 import SelectColors from "../components/SelectColor";
+import { useContext } from "react";
+import LoggerContext from "../contexts/logger";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [isChange, setIsChange] = useState(false);
+  const { log } = useContext(LoggerContext);
+
   const confirmMessage =
     "변경사항이 있습니다. 정말로 이 페이지를 나가시겠습니까?";
+
   useEffect(() => {
     const handleBeforeUnload = (event) => {
       if (isChange) {
@@ -37,11 +43,15 @@ const Home = () => {
   const handleInputChange = () => {
     setIsChange(true);
   };
+  const testLog = () => {
+    log("Home", "Log Test");
+  };
   return (
     <>
       <div>
         <h1>1페이지</h1>
-        <div>페이지 벗어나기 테스트</div>
+        <div onClick={testLog}>페이지 벗어나기 테스트</div>
+        <Link to="/about">About</Link>
         <input onChange={handleInputChange}></input>
         <br />
         <input onChange={handleInputChange}></input>
